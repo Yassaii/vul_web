@@ -131,7 +131,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "flask", specifier = ">=3.0.0" }]
+requires-dist = [{ name = "flask", specifier = ">=0.12.1" }]
 
 [[package]]
 name = "werkzeug"
