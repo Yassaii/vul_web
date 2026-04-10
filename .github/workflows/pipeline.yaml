@@ -1,5 +1,5 @@
 name: CI Sécurité
-[cite_start]on: [push] 
+on: [push] 
 
 jobs:
   check-code:
