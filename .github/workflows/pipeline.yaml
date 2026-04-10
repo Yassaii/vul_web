@@ -1,18 +1,27 @@
-name: CI Sécurité
-on: [push] 
+name: CI Securite
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  check-code:
+  analyze:
+    name: Analyse CodeQL
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
     steps:
-      - name: Checkout du code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
         with:
-          python-version: '3.13'
+          languages: python
 
-      - name: Test de démarrage
-        run: echo "Le pipeline est ok"
-
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
