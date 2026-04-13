@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request
 import os
 
 app = Flask(__name__)
@@ -17,12 +17,14 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
-    # LA FAILLE : Aucune vérification de l'extension 
-    file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-    return f"Fichier {file.filename} bien reçu dans {UPLOAD_FOLDER}"
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(file_path)
+    
+    statistiques = os.popen(f"wc -c {file_path}").read() 
+    
+    return f"Fichier bien reçu. Taille du fichier : {statistiques}"
 
-# Le flag est caché dans un fichier sur le serveur
-# Chemin : /ctf/upload/flag.txt
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER): os.makedirs(UPLOAD_FOLDER)
+    with open("flag.txt", "w") as f: f.write("Flag{MIAAAAAWWWW}")
     app.run(port=5002)
